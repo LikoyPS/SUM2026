@@ -5,23 +5,34 @@
 #define pi 3.14159265358979323846
 
 static VEC GLB_Geom[GLB_GRID_H][GLB_GRID_W];
-static INT GLB_Ws, GLB_Hs, GLB_Ws, GLB_Hs;
+static INT GLB_Ws, GLB_Hs;
+static DBL GLB_ProjSize = 1, GLB_Wp, GLB_Hp, GLB_ProjDist = 1;
 
 
 VOID GLB_Draw( HDC hDC )
 {
+  DBL xp, yp;
   INT i, j, s = 2;
   static POINT pnts[GLB_GRID_H][GLB_GRID_W];
-
+  VEC P;
   SetDCBrushColor(hDC, RGB(255, 0, 0));
 
   for (i = 0; i < GLB_GRID_H; i++)
     for (j = 0; j < GLB_GRID_W; j++)
     {
-      pnts[i][j].x = (INT)(GLB_Ws / 2 + GLB_Geom[i][j].X); /*  * GLB_Ws / GLB_Wp */
-      pnts[i][j].y = (INT)(GLB_Hs / 2 - GLB_Geom[i][j].Y); /* * GLB_Hs / GLB_Hp */
+      P = GLB_Geom[i][j];
+      
+      P.Z -= 1;
+      
+      xp = P.X * GLB_ProjDist / (-P.Z);
+      yp = P.Y * GLB_ProjDist / (-P.Z);
+      
+      pnts[i][j].x = (INT)(xp * GLB_Ws / GLB_Wp + GLB_Ws / 2); /*  * GLB_Ws / GLB_Wp */
+      pnts[i][j].y = (INT)(-yp * GLB_Hs / GLB_Hp + GLB_Hs / 2); /* * GLB_Hs / GLB_Hp */
     }
-  for (i = 0; i < GLB_GRID_H; i++)
+  
+    /* paraleles and meridianes */
+    for (i = 0; i < GLB_GRID_H; i++)
   {
     MoveToEx(hDC, pnts[i][0].x, pnts[i][0].y, NULL);
     for (j = 0; j < GLB_GRID_W; j++)
@@ -42,18 +53,18 @@ VOID GLB_Draw( HDC hDC )
 
 VOID GLB_Resize( INT Ws, INT Hs )
 {
-  DBL ProjSize = 1, Wp, Hp;
+  DBL Wp, Hp;
   GLB_Ws = Ws;
   GLB_Hs = Hs;
-  if (Ws >= Hs)
+  if (GLB_Ws >= GLB_Hs)
   {  
-    Wp = ProjSize * Ws / Hs;
-    Hp = ProjSize;
+    GLB_Wp = GLB_ProjSize * GLB_Ws / GLB_Hs;
+    GLB_Hp = GLB_ProjSize;
   }
   else
   {
-    Wp = ProjSize;
-    Hp = ProjSize * Hs / Ws;
+    Wp = GLB_ProjSize;
+    Hp = GLB_ProjSize * Hs / Ws;
   }
 }
 
@@ -133,10 +144,9 @@ VOID GLB_Init ( DBL R )
       GLB_Geom[i][j].X = R * sin(theta) * sin(phi);
       GLB_Geom[i][j].Y = R * cos(theta);
       GLB_Geom[i][j].Z = R * sin(theta) * cos(phi);
-      GLB_Geom[i][j] = RotateZ( GLB_Geom[i][j], 90 * t);
+      /*GLB_Geom[i][j] = RotateZ( GLB_Geom[i][j], 90 * t);
       GLB_Geom[i][j] = RotateX( GLB_Geom[i][j], 90 * t);
-      GLB_Geom[i][j] = RotateY( GLB_Geom[i][j], 90 * t);
+      GLB_Geom[i][j] = RotateY( GLB_Geom[i][j], 90 * t);*/
     }
   }
 }
-
