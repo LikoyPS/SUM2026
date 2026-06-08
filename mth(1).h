@@ -145,18 +145,14 @@ __inline VEC VecMulMatr( VEC V, MATR M )
                 (V.X * M.A[0][2] + V.Y * M.A[1][2] + V.Z * M.A[2][2] + M.A[3][2]) / w);
 }
 
-/*__inline VEC PointTransform( VEC V, MATR M )
+__inline VEC VecCrossVec(Vec V1, Vec V2)
 {
-  DBL w = V.X * M.A[0][3] + V.Y * M.A[1][3] + V.Z * M.A[2][3] + M.A[3][3];
-
-} */
-
-/*VEC VecCrossVec( VEC V1, VEC V2 )
-{
-  VEC v, i, j, k;
-  i = VecNormalize(V1.X);
-  return V1;
-} */
+  VEC v;
+  v.X = V1.y * V2.z - V1.z * V2.y;
+  v.Y = V1.z * V2.x - V1.x * V2.z;
+  v.Z = V1.x * V2.y - V1.y * V2.x;
+  return v;
+}
 
 __inline MATR MatrSet( DBL A00, DBL A01, DBL A02, DBL A03,
               DBL A10, DBL A11, DBL A12, DBL A13,
@@ -319,11 +315,5 @@ __inline MATR MatrRotateY( DBL AngleInDegree )
   m.A[2][2] = c;
   return m;
 }
-
-
-/*VEC PointTransform( VEC V, MATR M )
-{
-  
-}*/
 
 #endif /* __mth_h_ */
