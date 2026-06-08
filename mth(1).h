@@ -145,12 +145,12 @@ __inline VEC VecMulMatr( VEC V, MATR M )
                 (V.X * M.A[0][2] + V.Y * M.A[1][2] + V.Z * M.A[2][2] + M.A[3][2]) / w);
 }
 
-__inline VEC VecCrossVec(Vec V1, Vec V2)
+__inline VEC VecCrossVec( VEC V1, VEC V2 )
 {
   VEC v;
-  v.X = V1.y * V2.z - V1.z * V2.y;
-  v.Y = V1.z * V2.x - V1.x * V2.z;
-  v.Z = V1.x * V2.y - V1.y * V2.x;
+  v.X = V1.Y * V2.Z - V1.Z * V2.Y;
+  v.Y = V1.Z * V2.X - V1.X * V2.Z;
+  v.Z = V1.X * V2.Y - V1.Y * V2.X;
   return v;
 }
 
