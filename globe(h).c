@@ -18,4 +18,6 @@ VOID GLB_Draw( HDC hDC );
 VOID GLB_Resize( INT Ws, INT Hs );
 VOID GLB_Init( DBL R );
 
+static VEC GLB_GeomN[GLB_GRID_H][GLB_GRID_W];
+
 #endif
