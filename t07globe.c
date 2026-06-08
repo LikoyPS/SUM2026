@@ -59,7 +59,7 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
     ReleaseDC(hWnd, hDC); 
     hBm = NULL;
     
-    GLB_Init(100.0);
+    GLB_Init(1);
     
     return 0;
   case WM_ERASEBKGND:
@@ -83,7 +83,7 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
       /*draw*/
     Rectangle(hMemDC, 0, 0, W, H);
     GLB_Draw(hMemDC);
-    GLB_Init(100.0);
+    GLB_Init(0.3);
     hDC = GetDC(hWnd);
     BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);
     ReleaseDC(hWnd, hDC);                  
