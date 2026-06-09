@@ -89,7 +89,7 @@ VOID GLB_Draw( HDC hDC )
   {
     for (j = 0; j < GLB_GRID_W - 1; j++)
     {
-      VEC N = GLB_Geom[i][j];
+      VEC N = GLB_GeomN[i][j];
       DBL nl;
       VEC C = {0.1, 0.1, 0.90};
       
