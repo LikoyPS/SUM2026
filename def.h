@@ -1,16 +1,6 @@
-/* FILE NAME  : def.h
- * PROGRAMMER : VG4
- * LAST UPDATE: 09.06.2026
- * PURPOSE    : 3D animation project.
- *              Common declaration module.
- */
- 
 #ifndef __def_h_
 #define __def_h_
 
-#include <windows.h>
-#include <math.h>
- 
 /* Debug memory allocation support */
 #ifndef NDEBUG
 #  define _CRTDBG_MAP_ALLOC
@@ -24,18 +14,18 @@
       _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR),                     \
       _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE), \
       _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR))
- 
+
 #else /* NDEBUG */
 #  define SetDbgMemHooks() ((void)0)
 #endif /* NDEBUG */
 #include <stdlib.h>
- 
-#include "mth/mth.h"
- 
-/* 64 bit integer data type */
+
+#include "math.h"
+#include <windows.h>
+
 typedef long long INT64;
-typedef unsigned long long UINT64;
- 
+typedef unsigned long long UINT64;  
+
 #endif /* __def_h_ */
  
 /* END OF 'def.h' FILE */
