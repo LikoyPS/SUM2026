@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="T07GLOBE"
 	ProjectGUID="{CC6812E7-9EF3-48AD-B9C1-74EC1EC7BB42}"
 	RootNamespace="T07GLOBE"
@@ -183,20 +183,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\t07globe.c"
-				>
-			</File>
-			<File
-				RelativePath=".\timer.c"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
 				RelativePath=".\globe.h"
 				>
 			</File>
@@ -205,9 +191,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\t07globe.c"
+				>
+			</File>
+			<File
+				RelativePath=".\timer.c"
+				>
+			</File>
+			<File
 				RelativePath=".\timer.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 		</Filter>
 		<Filter
 			Name="Resource Files"

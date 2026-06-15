@@ -1,14 +1,18 @@
 #include <math.h>
 #include <windows.h>
-#include "MTH.h"
 
 #ifndef __globe_h_
-#define __globe_h_ 
+#define __globe_h_
 
-#define GLB_GRID_W 31
-#define GLB_GRID_H 18
+#define GLB_GRID_W 30
+#define GLB_GRID_H 30
 
 typedef DOUBLE DBL;
+
+typedef struct
+{
+  DBL X, Y, Z;
+} VEC;
  
 VOID GLB_Draw( HDC hDC );
 VOID GLB_Resize( INT Ws, INT Hs );
@@ -16,4 +20,4 @@ VOID GLB_Init( DBL R );
 
 static VEC GLB_GeomN[GLB_GRID_H][GLB_GRID_W];
 
-#endif
+#endif /* __globe_h_ */

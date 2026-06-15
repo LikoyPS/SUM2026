@@ -1,86 +1,115 @@
+/* IK1 t05det.c */
 #include <stdio.h>
-#include <conio.h>
+#include <stdlib.h>
 #include <windows.h>
+#include <conio.h>
+
+typedef DOUBLE DBL;
 
 #define MAX 3
-typedef DOUBLE DBL;
 DBL A[MAX][MAX];
-INT N, Det, prod;
-
-INT perm[MAX];
+INT N;
+INT P[MAX];
 BOOL IsParity;
+DBL Det;
 
 BOOL LoadMatrix( CHAR *FileName )
 {
   FILE *F;
   INT i, j;
+
   N = 0;
   if ((F = fopen(FileName, "r")) == NULL)
     return FALSE;
+
   fscanf(F, "%d", &N);
-  if (N > MAX)
-    N = MAX;
+  if (N < 0)
+    N = 0;
   else
-    if (N < 0)
-      N = 0;
+    if (N > MAX)
+      N = MAX;
   for (i = 0; i < N; i++)
     for (j = 0; j < N; j++)
       fscanf(F, "%lf", &A[i][j]);
+
   fclose(F);
   return TRUE;
 }
 
-VOID Swap( INT* a, INT* b )
+VOID Swap( INT *a, INT *b )
 {
-  INT c = *a;
-  *a = *b;
-  *b = c;
+  INT t;
+
+  t = *b;
+  *b = *a;
+  *a = t;
 }
 
-VOID Store( VOID )
+VOID GO( INT Pos )
 {
   INT i;
-  FILE *F;
-  F = fopen("cout.txt", "a");
-  if (F == NULL)
-    return;
-  for (i = 0; i < MAX - 1; i++)
-    fprintf(F, "%d", perm[i]);
-  fprintf(F, "%d - parity:%s\n", perm[MAX - 1], IsParity ? "yes" : "no");
-  fprintf(F, "%d", Det);
-  fclose(F);
-}
-VOID f( INT Pos )
-{
-  INT i;
-  LoadMatrix("cinp.txt");
-  if (Pos == MAX)
+  DBL prod;
+
+  if (Pos == N)
   {
-    Store();
+    for (prod = 1, i = 0; i < N; i++)
+      prod *= A[i][P[i]];
+    Det += prod * (IsParity ? 1 : -1);
     return;
   }
   else
   {
-    for (i = Pos; i < MAX; i++)
+    for (i = Pos; i < N; i++)
     {
-      Swap(&perm[Pos], &perm[i]);
-      IsParity = !IsParity;
-      f(Pos + 1);
-      Swap(&perm[Pos], &perm[i]);
+      if (i != Pos)
+      {
+        Swap(&P[Pos], &P[i]);
+        IsParity = !IsParity;
+      }
+      GO(Pos + 1);
+      if (i != Pos)
+      {
+        Swap(&P[Pos], &P[i]);
+        IsParity = !IsParity;
+      }
     }
-  IsParity = !IsParity;  
-  }
-  if (Pos == N)
-  {
-    for (prod = 1, i = 0; i < N; i++)
-      prod *= A[i][perm[i]];
-    Det += prod * (IsParity ? 1 : -1);
   }
 }
-VOID main ( VOID )
+
+DBL Determ( VOID )
 {
-  /*INT i;
+  INT i;
+
   for (i = 0; i < MAX; i++)
-    perm[i] = i + 1; */
-  f(0);
+    P[i] = i;
+
+  IsParity = TRUE;
+  Det = 0;
+  GO(0);
+  return Det;
+}
+
+
+VOID main( VOID )
+{
+  INT i;
+  FILE *F;
+
+  if (!LoadMatrix("IN.TXT"))
+  {
+    printf("error");
+    return;
+    _getch();
+  }
+  F = fopen("cout.txt", "a");
+  if (F == NULL)
+  {
+    printf("ERROR");
+    return;
+  }
+  for (i = 0; i < MAX; i++)
+    P[i] = i;
+
+  fprintf(F, "%lf", Determ());
+  fclose(F);
 }

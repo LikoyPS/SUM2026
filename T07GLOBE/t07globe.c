@@ -1,9 +1,10 @@
- /* t07globe   IK1   06.06.2026*/
 #include <windows.h>
 #include <math.h>
+#include <time.h>
 #include "globe.h"
 
-#define WND_CLASS_NAME "something"
+#define WND_CLASS_NAME "sharik"
+
 LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam );
 
 INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine, INT ShowCmd )
@@ -25,20 +26,19 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
 
   if (!RegisterClass(&wc))
   {
-    MessageBox(NULL, "Error", "ERROR", MB_ICONERROR);
+    MessageBox(NULL, "error", "error", MB_ICONERROR);
     return 0;
   }
-   /* create window */ 
-   CreateWindowA(WND_CLASS_NAME, "text", WS_CLIPCHILDREN|WS_OVERLAPPEDWINDOW|WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL); 
-   /* main program loop  */
+  /* create window */ 
+  CreateWindowA(WND_CLASS_NAME, "idk", WS_CLIPCHILDREN|WS_OVERLAPPEDWINDOW|WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL); 
+  /* main program loop  */
   while (GetMessage(&msg, NULL, 0, 0))
   {
     TranslateMessage(&msg);
     DispatchMessage(&msg);
   }
-  return 30;
+  return 10;
 }
-
 
 LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam )
 {
@@ -47,19 +47,21 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
   static BITMAP bm;
   PAINTSTRUCT ps;
   HDC hDC;
-  static INT W, H;
-                                  
+  static INT W, H, StartTime, Framecount;
+  //static DBL t;
+
   switch (Msg)
   {
   case WM_CREATE:
+    //t = clock();
+    //FrameCount = 0;
     SetTimer(hWnd, 30, 1, NULL);
     hDC = GetDC(hWnd);
     hMemDC = CreateCompatibleDC(hDC);
-    ReleaseDC(hWnd, hDC); 
+    ReleaseDC(hWnd, hDC);
     hBm = NULL;
     
-    GLB_Init(1);
-    
+    GLB_Init(0.4);
     return 0;
   case WM_ERASEBKGND:
     return 1;
@@ -78,20 +80,20 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
     SendMessage(hWnd, WM_TIMER, 0, 0);  
 
     return 0;
-  case WM_TIMER:   
-      /*draw*/
+  case WM_TIMER:
     Rectangle(hMemDC, 0, 0, W, H);
     GLB_Draw(hMemDC);
-    GLB_Init(0.3);
     hDC = GetDC(hWnd);
     BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);
-    ReleaseDC(hWnd, hDC);                  
+    ReleaseDC(hWnd, hDC);
     return 0;
+
   case WM_PAINT:
     hDC = BeginPaint(hWnd, &ps);
-    BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);  
+    BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);
     EndPaint(hWnd, &ps);
     return 0;
+
   case WM_DESTROY:
     if (hBm != NULL)
       DeleteObject(hBm);
