@@ -78,7 +78,4 @@ VOID IK1_RndProjSet( VOID );
 VOID IK1_RndCamSet( VEC Loc, VEC At, VEC Up );
 VOID IK1_RndPrimTriMeshAutoNormals( ik1VERTEX *V, INT NumOfV, INT *Ind, INT NumOfI );
 
-
-#include "def.h"
-
 #endif /* __rnd_h_ */

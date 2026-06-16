@@ -202,6 +202,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\anim\timer.c"
+					>
+				</File>
+				<File
 					RelativePath=".\src\anim\unit.c"
 					>
 				</File>

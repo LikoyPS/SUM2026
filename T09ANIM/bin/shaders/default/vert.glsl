@@ -13,5 +13,5 @@ out vec4 DrawColor;
 void main( void )
 {
   gl_Position = MatrWVP * vec4(InPosition, 1);
-  DrawColor = InColor;
+  DrawColor = vec4(1, 1, 1, 1);
 }

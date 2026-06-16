@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 
-#include "rnd.h"
+#include "anim/anim.h"
 
 VOID IK1_RndPrimCreate( ik1PRIM *Pr, ik1PRIM_TYPE Type,
                         ik1VERTEX *V, INT NoofV, INT *Ind, INT NoofI )
@@ -88,11 +88,21 @@ VOID IK1_RndPrimFree( ik1PRIM *Pr )
 VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
 {
   MATR wvp = MatrMulMatr3(Pr->Trans, World, IK1_RndMatrVP);
+  UINT ProgId = IK1_RndShaders[0].ProgId;
+  INT loc;
   INT prim_type =
     Pr->Type == IK1_RND_PRIM_LINES ? GL_LINES :
     Pr->Type == IK1_RND_PRIM_TRIMESH ? GL_TRIANGLES :
     GL_POINTS;
  
+  glUseProgram(ProgId);
+  if ((loc = glGetUniformLocation(ProgId, "MatrWVP")) != -1)
+    glUniformMatrix4fv(loc, 1, FALSE, wvp.A[0]);
+  if ((loc = glGetUniformLocation(ProgId, "Time")) != -1)
+    glUniform1f(loc, IK1_Anim.Time);
+  /*if ((loc = glGetUniformLocation(ProgId, "MatrWInv")) != -1)
+    glUniform1f(loc, 1, FALSE, winv.A[0]);*/
+  
   glLoadMatrixf(wvp.A[0]);
  
   glBindVertexArray(Pr->VA);
@@ -105,6 +115,8 @@ VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   }
   glBindVertexArray(0);
+
+  glUseProgram(0);
 } /* End of 'IK1_RndPrimDraw' function */
 
 VOID IK1_RndPrimTriMeshAutoNormals(ik1VERTEX *V, INT nv, INT *Ind, INT nf)

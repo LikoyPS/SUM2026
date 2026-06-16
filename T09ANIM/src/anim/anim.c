@@ -11,6 +11,7 @@ VOID IK1_AnimInit( HWND hWnd )
 
   IK1_Anim.W = IK1_RndFrameW;
   IK1_Anim.H = IK1_RndFrameH;
+  IK1_TimerInit();
 }
 
 VOID IK1_AnimClose( VOID )
@@ -43,6 +44,7 @@ VOID IK1_AnimRender( VOID )
   INT i;
 
   /*timer*/
+  IK1_TimerResponse();
 
   for (i = 0; i < IK1_Anim.NumOfUnits; i++)
     IK1_Anim.Units[i]->Response(IK1_Anim.Units[i], &IK1_Anim);

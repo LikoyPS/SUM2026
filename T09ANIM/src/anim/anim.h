@@ -3,6 +3,8 @@
 #ifndef __anim_h_
 #define __anim_h_
 
+#include <time.h>
+
 #include "rnd/rnd.h"
 
 #define IK1_MAX_UNITS 3000
@@ -27,6 +29,8 @@ struct tagik1ANIM
     IsPause;                     /* Pause flag */
 };
 
+extern ik1ANIM IK1_Anim;
+
 #define IK1_UNIT_BASE_FIELDS \
   VOID (*Init)( ik1UNIT *Uni, ik1ANIM *Ani ); \
   VOID (*Close)( ik1UNIT *Uni, ik1ANIM *Ani ); \
@@ -46,6 +50,18 @@ VOID IK1_AnimRender( VOID );
 
 VOID IK1_AnimUnitAdd( ik1UNIT *Uni );
 ik1UNIT * IK1_AnimUnitCreate( INT Size );
+
+typedef unsigned long long UINT64;
+
+extern DOUBLE GlobalTime, GlobalDeltaTime, Time, DeltaTime, FPS;
+extern BOOL
+  IsPause;
+
+/* VOID Timer( VOID ); */
+
+VOID IK1_TimerInit( VOID );
+
+VOID IK1_TimerResponse( VOID );
 
 #endif __anim_h_
 /* start of "anim.h" file */
