@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <time.h>
  
-#include "anim/rnd/rnd.h"
+#include "anim/rnd/res/rndres.h"
  
+ik1SHADER IK1_RndShaders[IK1_MAX_SHADERS];
+INT IK1_RndShadersSize;
+
+
 UINT IK1_RndProgId;
 
 /***
@@ -203,7 +207,7 @@ VOID IK1_RndShdFree( UINT ProgId )
  */
 VOID IK1_RndShdInit( VOID )
 {
-  IK1_RndProgId = IK1_RndShdLoad("default");
+  IK1_RndShdAdd("default");
 } /* End of 'IK1_RndResInit' function */
  
 /* Shaders deinitialization function.
@@ -212,7 +216,11 @@ VOID IK1_RndShdInit( VOID )
  */
 VOID IK1_RndShdClose( VOID )
 {
-  IK1_RndShdFree(IK1_RndProgId);
+  INT i;
+ 
+  for (i = 0; i < IK1_RndShadersSize; i++)
+    IK1_RndShdFree(IK1_RndShaders[i].ProgId);
+  IK1_RndShadersSize = 0;
 } /* End of 'IK1_RndResInit' function */
  
 /* Update from file all load shaders function.

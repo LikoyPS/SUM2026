@@ -465,6 +465,16 @@ __inline MATR MatrInverse( MATR M )
   return r;
 }
 
+__inline MATR MatrTranspose( MATR M )  
+{
+  MATR res = {{{0}}};
+  INT i, j;
+  for (i = 0; i < 4; i++)
+    for (j = 0; j < 4; j++)
+      res.A[i][j] = M.A[j][i];
+  return res;
+}
+
 __inline MATR MatrRotate( VEC P, FLT a )
 {
   FLT c = cos(a), s = sin(a);

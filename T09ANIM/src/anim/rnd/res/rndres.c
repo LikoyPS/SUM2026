@@ -7,7 +7,9 @@
  */
 VOID IK1_RndResInit( VOID )
 {
-  IK1_RndShdAdd("default");
+  IK1_RndShdInit();
+  IK1_RndTexInit();
+  IK1_RndMtlInit();
 } /* End of 'IK1_RndShdInit' function */
  
 /* Shader storage deinitialize function.
@@ -16,9 +18,7 @@ VOID IK1_RndResInit( VOID )
  */
 VOID IK1_RndResClose( VOID )
 {
-  INT i;
- 
-  for (i = 0; i < IK1_RndShadersSize; i++)
-    IK1_RndShdFree(IK1_RndShaders[i].ProgId);
-  IK1_RndShadersSize = 0;
+  IK1_RndMtlClose();
+  IK1_RndShdClose();
+  IK1_RndTexClose();  
 } /* End of 'IK1_RndShdClose' function */

@@ -27,6 +27,9 @@ struct tagik1ANIM
     FPS;                         /* Frames per second value */
   BOOL
     IsPause;                     /* Pause flag */
+
+  BYTE Keys[256];      /* Keyboard press states */
+  BYTE KeysClick[256]; /* Keyboard click states */
 };
 
 extern ik1ANIM IK1_Anim;

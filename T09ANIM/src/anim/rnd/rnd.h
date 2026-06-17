@@ -1,18 +1,26 @@
 /* FILE NAME: rnd.h
  * PURPOSE: 3D math implementation module.
  * PROGRAMMER: IK1
- * DATE: 09.06.2026
+ * DATE: 17.06.2026
  */
 
 #ifndef __rnd_h_
 #define __rnd_h_
 
+#define GLEW_STATIC
+#include <glew.h>
+
 #include "res/rndres.h"
 
+
+/***
+ * Render base
+ ***/
 
 extern HWND IK1_hRndWnd;        /* Work window handle */
 extern HDC IK1_hRndDC;     /* Work window memory device context  */
 extern INT IK1_RndFrameW, IK1_RndFrameH; /* Work window size */
+extern HGLRC IK1_hRndGLRC;
 
 extern DBL
   IK1_RndProjSize,     /* Project plane fit square */
@@ -24,12 +32,25 @@ extern MATR
   IK1_RndMatrProj, /* Projection coordinate system matrix */
   IK1_RndMatrVP;   /* Stored (View * Proj) matrix */
 
-extern HGLRC IK1_hRndGLRC;
+VOID IK1_RndInit( HWND hWnd );
+VOID IK1_RndClose( VOID );
+VOID IK1_RndResize( INT W, INT H );
+VOID IK1_RndCopyFrame( VOID );
+VOID IK1_RndStart( VOID );
+VOID IK1_RndEnd( VOID );
+VOID IK1_RndProjSet( VOID );
+VOID IK1_RndCamSet( VEC Loc, VEC At, VEC Up );
+VOID APIENTRY glDebugOutput( UINT Source, UINT Type, UINT Id, UINT Severity,
+                             INT Length, const CHAR *Message,
+                             const VOID *UserParam );
 
+/***
+ * Primitive handle
+ ***/
 
 /* structure of vertex */
 typedef struct tagik1VERTEX
- {
+{
   VEC P;   /* Position */
   VEC2 T;  /* Texture Coordinate */
   VEC N;   /* norval */
@@ -60,6 +81,7 @@ typedef struct tagik1PRIM
   VEC MinBB, MaxBB;  /* Bound box */
  
   MATR Trans;        /* Additional transformation matrix */
+  INT MtlNo;         /* material number at ctock array */
 } ik1PRIM;
 
 VOID IK1_RndPrimCreate( ik1PRIM *Pr, ik1PRIM_TYPE Type, ik1VERTEX *V, INT NoofV, INT *Ind, INT NoofI );
@@ -67,15 +89,6 @@ VOID IK1_RndPrimFree( ik1PRIM *Pr );
 VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World );
 BOOL IK1_RndPrimLoad( ik1PRIM *Pr, CHAR *FileName );
 BOOL IK1_RndPrimCreateSphere( ik1PRIM *Pr, DBL R, INT W, INT H );
-
-VOID IK1_RndInit( HWND hWnd );
-VOID IK1_RndClose( VOID );
-VOID IK1_RndResize( INT W, INT H );
-VOID IK1_RndCopyFrame( VOID );
-VOID IK1_RndStart( VOID );
-VOID IK1_RndEnd( VOID );
-VOID IK1_RndProjSet( VOID );
-VOID IK1_RndCamSet( VEC Loc, VEC At, VEC Up );
 VOID IK1_RndPrimTriMeshAutoNormals( ik1VERTEX *V, INT NumOfV, INT *Ind, INT NumOfI );
 
 #endif /* __rnd_h_ */

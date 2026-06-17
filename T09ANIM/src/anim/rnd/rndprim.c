@@ -87,7 +87,10 @@ VOID IK1_RndPrimFree( ik1PRIM *Pr )
 /* Start of IK1_RndPrimDraw function */
 VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
 {
-  MATR wvp = MatrMulMatr3(Pr->Trans, World, IK1_RndMatrVP);
+  MATR
+    w = MatrMulMatr(Pr->Trans, World),
+    winv = MatrTranspose(MatrInverse(w)),
+    wvp = MatrMulMatr(w, IK1_RndMatrVP);
   UINT ProgId = IK1_RndShaders[0].ProgId;
   INT loc;
   INT prim_type =
@@ -96,12 +99,15 @@ VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
     GL_POINTS;
  
   glUseProgram(ProgId);
+  ProgId = IK1_RndMtlApply(Pr->MtlNo);
   if ((loc = glGetUniformLocation(ProgId, "MatrWVP")) != -1)
     glUniformMatrix4fv(loc, 1, FALSE, wvp.A[0]);
   if ((loc = glGetUniformLocation(ProgId, "Time")) != -1)
     glUniform1f(loc, IK1_Anim.Time);
-  /*if ((loc = glGetUniformLocation(ProgId, "MatrWInv")) != -1)
-    glUniform1f(loc, 1, FALSE, winv.A[0]);*/
+  if ((loc = glGetUniformLocation(ProgId, "MatrWInv")) != -1)
+    glUniformMatrix4fv(loc, 1, FALSE, winv.A[0]);
+  /*if ((loc = glGetUniformLocation(ProgId, "CamLoc")) != -1)
+    glUniform3fv(loc, 1, &IK1_RndCamLoc.X); */
   
   glLoadMatrixf(wvp.A[0]);
  
