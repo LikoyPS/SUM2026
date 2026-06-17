@@ -26,10 +26,12 @@ struct tagik1ANIM
     Time, DeltaTime,             /* Time with pause and interframe interval */
     FPS;                         /* Frames per second value */
   BOOL
-    IsPause;                     /* Pause flag */
+    IsPause;                      /* Pause flag */
+  BOOL IsActive;
 
   BYTE Keys[256];      /* Keyboard press states */
   BYTE KeysClick[256]; /* Keyboard click states */
+  INT Mx, My, Mz, Mdx, Mdy, Mdz;
 };
 
 extern ik1ANIM IK1_Anim;
@@ -50,9 +52,15 @@ VOID IK1_AnimClose( VOID );
 VOID IK1_AnimResize( INT W, INT H );
 VOID IK1_AnimCopyFrame( VOID );
 VOID IK1_AnimRender( VOID );
+VOID IK1_AnimDoExit( VOID );
 
 VOID IK1_AnimUnitAdd( ik1UNIT *Uni );
 ik1UNIT * IK1_AnimUnitCreate( INT Size );
+
+VOID IK1_KeyboardInit( VOID );
+VOID IK1_KeyboardResponse( VOID );
+VOID IK1_AnimInputInit( VOID );
+VOID IK1_AnimInputResponse( VOID );
 
 typedef unsigned long long UINT64;
 

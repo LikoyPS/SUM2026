@@ -3,7 +3,7 @@
 
 static BYTE KeysOld[256];
 
-static VOID IK1_KeyboardInit( VOID )
+VOID IK1_KeyboardInit( VOID )
 {
   INT i;
 
@@ -16,7 +16,7 @@ static VOID IK1_KeyboardInit( VOID )
   memcpy(KeysOld, IK1_Anim.Keys, 256);
 }
 
-static VOID IK1_KeyboardResponse( VOID )
+VOID IK1_KeyboardResponse( VOID )
 {
   INT i;
 
@@ -29,12 +29,53 @@ static VOID IK1_KeyboardResponse( VOID )
   memcpy(KeysOld, IK1_Anim.Keys, 256);
 }
 
-VOID IK1_AminInputInit( VOID )
+INT IK1_MouseWheel;
+
+VOID IK1_MouseInit( VOID )
 {
-  IK1_KeyboardInit();
+  POINT pt;
+
+  GetCursorPos(&pt);
+  ScreenToClient(IK1_Anim.hWnd, &pt);
+
+  IK1_Anim.Mdx = 0;
+  IK1_Anim.Mdy = 0;
+
+  IK1_Anim.Mx = pt.x;
+  IK1_Anim.My = pt.y;
+
+  IK1_Anim.Mdz = IK1_MouseWheel;
+  IK1_Anim.Mz += IK1_MouseWheel;
+  
+  IK1_MouseWheel = IK1_Anim.Mdz = IK1_Anim.Mz = 0;
 }
 
-VOID IK1_AminInputResponse( VOID )
+VOID IK1_MouseResponse( VOID )
+{
+  POINT pt;
+
+  GetCursorPos(&pt);
+  ScreenToClient(IK1_Anim.hWnd, &pt);
+
+  IK1_Anim.Mdx = pt.x - IK1_Anim.Mx;
+  IK1_Anim.Mdy = pt.y - IK1_Anim.My;
+
+  IK1_Anim.Mx = pt.x;
+  IK1_Anim.My = pt.y;
+
+  IK1_Anim.Mdz = IK1_MouseWheel;
+  IK1_Anim.Mz += IK1_MouseWheel;
+  IK1_MouseWheel = 0;
+}
+
+VOID IK1_AnimInputInit( VOID )
+{
+  IK1_KeyboardInit();
+  IK1_MouseInit();
+}
+
+VOID IK1_AnimInputResponse( VOID )
 {
   IK1_KeyboardResponse();
+  IK1_MouseResponse();
 }

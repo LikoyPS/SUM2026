@@ -1,4 +1,15 @@
 #include "anim\anim.h"
 
-ik1UNIT * IK1_UniteCreateBall( VOID );
+typedef struct tagik1UINT_CONTROL
+{
+  IK1_UNIT_BASE_FIELDS;
+  VEC CamLoc, CamAt;
+  DBL Speed;
+} ik1UNIT_CONTROL;
+
+ik1UNIT * IK1_UnitCreateBall( VOID );
+ik1UNIT * IK1_UnitCreateControl( VOID );
+
+extern IK1_MouseWheel;
+
 /* prototipes func  */

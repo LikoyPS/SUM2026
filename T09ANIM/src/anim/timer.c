@@ -3,7 +3,7 @@
  * PROGRAMMER: IK1
  * DATE: 09.06.2026
  */
-#include <time.h>
+
 #include <windows.h>
 #include "anim.h"
 
@@ -25,7 +25,14 @@ static UINT64
 
 VOID IK1_TimerInit( VOID )
 {
-  StartTime = OldTime = OldTimeFPS = clock();
+  LARGE_INTEGER t;
+
+  QueryPerformanceFrequency(&t);
+  TimePerSec = t.QuadPart;
+
+  QueryPerformanceCounter(&t);
+
+  StartTime = OldTime = OldTimeFPS = t.QuadPart;
   PauseTime = 0;
   FrameCounter = 0;
   IK1_IsPause = FALSE;
@@ -38,13 +45,11 @@ VOID IK1_TimerResponse( VOID )
   LARGE_INTEGER t;
  
   QueryPerformanceCounter(&t);
- 
   /* Global time */
   IK1_Anim.Time = (DOUBLE)(t.QuadPart - StartTime) / TimePerSec;
   IK1_Anim.DeltaTime = (DOUBLE)(t.QuadPart - OldTime) / TimePerSec;
 
-  IK1_Anim.Time = clock();
-  
+ 
   /* Time with pause */
   if (!IK1_IsPause)
   {

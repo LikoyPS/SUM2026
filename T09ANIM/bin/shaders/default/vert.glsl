@@ -9,9 +9,11 @@ layout(location = 3) in vec4 InColor;
 uniform mat4 MatrWVP;
 
 out vec4 DrawColor;
+out vec3 DrawNormal;
 
 void main( void )
 {
   gl_Position = MatrWVP * vec4(InPosition, 1);
   DrawColor = InColor;
+  DrawNormal = InNormal;
 }

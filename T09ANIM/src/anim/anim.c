@@ -12,6 +12,8 @@ VOID IK1_AnimInit( HWND hWnd )
   IK1_Anim.W = IK1_RndFrameW;
   IK1_Anim.H = IK1_RndFrameH;
   IK1_TimerInit();
+
+  IK1_AnimInputInit();
 }
 
 VOID IK1_AnimClose( VOID )
@@ -43,15 +45,36 @@ VOID IK1_AnimRender( VOID )
 {  
   INT i;
 
-  /*timer*/
   IK1_TimerResponse();
+
+  if (IK1_Anim.IsActive)
+    IK1_AnimInputResponse();
 
   for (i = 0; i < IK1_Anim.NumOfUnits; i++)
     IK1_Anim.Units[i]->Response(IK1_Anim.Units[i], &IK1_Anim);
+  
   IK1_RndStart();
+
   for (i = 0; i < IK1_Anim.NumOfUnits; i++)
     IK1_Anim.Units[i]->Render(IK1_Anim.Units[i], &IK1_Anim);
+  
   IK1_RndEnd();
+}
+
+VOID IK1_AnimDoExit( VOID )
+{
+  static BOOL IsFinalizeStart = FALSE;
+
+  if (IsFinalizeStart)
+    return;
+  IsFinalizeStart = TRUE;
+  if (MessageBox(IK1_Anim.hWnd, "do u want to close window?",
+    "exit", MB_OKCANCEL | MB_ICONQUESTION | MB_DEFBUTTON1) != IDOK)
+  {
+    IsFinalizeStart = FALSE;
+    return;
+  }
+  PostMessage(IK1_Anim.hWnd, WM_CLOSE, 0, 0);
 }
 
 VOID IK1_AnimUnitAdd( ik1UNIT *Uni )

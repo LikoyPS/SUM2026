@@ -6,9 +6,6 @@
 ik1SHADER IK1_RndShaders[IK1_MAX_SHADERS];
 INT IK1_RndShadersSize;
 
-
-UINT IK1_RndProgId;
-
 /***
  * Base shaders functions
  ***/
@@ -229,13 +226,20 @@ VOID IK1_RndShdClose( VOID )
  */
 VOID IK1_RndShdUpdate( VOID )
 {
-  INT t = clock();
+  INT t = clock(), i;
   static INT old_time;
  
   if (t - old_time > 2 * CLOCKS_PER_SEC)
   {
+    for (i = 0; i < IK1_RndShadersSize; i++)
+    {
+      IK1_RndShdFree(IK1_RndShaders[i].ProgId);
+      IK1_RndShaders[i].ProgId = IK1_RndShdLoad(IK1_RndShaders[i].Name);
+    }
+    /*
     IK1_RndShdFree(IK1_RndProgId);
     IK1_RndProgId = IK1_RndShdLoad("default");
+    */
     old_time = t;
   }
 } /* End of 'VG4_RndShdUpdate' function */

@@ -86,6 +86,7 @@ VOID IK1_RndInit( HWND hWnd )
   /* Render parameters setup */
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_PRIMITIVE_RESTART);
+  glPrimitiveRestartIndex(-1);
   wglSwapIntervalEXT(0);
 
   IK1_RndProjSize = 0.1;

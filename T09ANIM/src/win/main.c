@@ -58,7 +58,8 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
     100, 100, 700, 700, NULL, NULL, hInstance, NULL);
 
   /*** Units creation ***/
-  IK1_AnimUnitAdd(IK1_UniteCreateBall());
+  IK1_AnimUnitAdd(IK1_UnitCreateBall());
+  IK1_AnimUnitAdd(IK1_UnitCreateControl());
 
   /* Message loop */
   while (TRUE)
@@ -91,10 +92,34 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
     SendMessage(hWnd, WM_TIMER, 47, 0);
     return 0;
 
+  case WM_ACTIVATE:
+    IK1_Anim.IsActive = LOWORD(wParam) != WA_INACTIVE;
+    return 0;
+
+  case WM_ENTERSIZEMOVE:
+    IK1_Anim.IsActive = FALSE;
+    return 0;
+
+  case WM_EXITSIZEMOVE:
+    IK1_Anim.IsActive = TRUE;
+    return 0;
+
   case WM_TIMER:
     IK1_AnimRender();
 
     IK1_AnimCopyFrame();
+    return 0;
+
+  case WM_LBUTTONDOWN:
+    SetCapture(hWnd);
+    return 0;
+
+  case WM_LBUTTONUP:
+    ReleaseCapture();
+    return 0;
+
+  case WM_MOUSEWHEEL:
+    IK1_MouseWheel += (SHORT)HIWORD(wParam);
     return 0;
 
   case WM_ERASEBKGND:
@@ -102,7 +127,7 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
 
   case WM_PAINT:
     hDC = BeginPaint(hWnd, &ps);
-    /* IK1_AnimCopyFrame();  - morganie */
+    IK1_AnimCopyFrame();
     EndPaint(hWnd, &ps);
     return 0;
 

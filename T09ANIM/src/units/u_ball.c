@@ -66,7 +66,7 @@ static VOID IK1_UnitRender( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
  * RETURNS:
  *   (ik1UNIT *) pointer to created unit.
  */
-ik1UNIT * IK1_UniteCreateBall( VOID )
+ik1UNIT * IK1_UnitCreateBall( VOID )
 {
   ik1UNIT *Uni;
  

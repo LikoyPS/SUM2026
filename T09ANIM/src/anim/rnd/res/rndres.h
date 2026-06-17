@@ -52,8 +52,8 @@ VOID IK1_RndShdLog( CHAR *FileNamePrefix, CHAR *ShaderName, CHAR *Text );
 * texturies handle
 ***/
 #define IK1_MAX_TEX 300
-extern ik1TEXTURE IK1_RndTex[IK1_MAX_TEX];
-extern INT IK1_RndTexSize;
+extern ik1TEXTURE IK1_RndTextures[IK1_MAX_TEX];
+extern INT IK1_RndTexturesSize;
 
 VOID IK1_RndTexInit( VOID );
 VOID IK1_RndTexClose( VOID );

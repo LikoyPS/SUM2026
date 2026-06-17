@@ -91,15 +91,18 @@ VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
     w = MatrMulMatr(Pr->Trans, World),
     winv = MatrTranspose(MatrInverse(w)),
     wvp = MatrMulMatr(w, IK1_RndMatrVP);
-  UINT ProgId = IK1_RndShaders[0].ProgId;
+  UINT ProgId;
   INT loc;
   INT prim_type =
     Pr->Type == IK1_RND_PRIM_LINES ? GL_LINES :
     Pr->Type == IK1_RND_PRIM_TRIMESH ? GL_TRIANGLES :
     GL_POINTS;
  
-  glUseProgram(ProgId);
+  /* glUseProgram(ProgId); */
   ProgId = IK1_RndMtlApply(Pr->MtlNo);
+  if (ProgId == 0)
+    return;
+
   if ((loc = glGetUniformLocation(ProgId, "MatrWVP")) != -1)
     glUniformMatrix4fv(loc, 1, FALSE, wvp.A[0]);
   if ((loc = glGetUniformLocation(ProgId, "Time")) != -1)
@@ -109,7 +112,7 @@ VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
   /*if ((loc = glGetUniformLocation(ProgId, "CamLoc")) != -1)
     glUniform3fv(loc, 1, &IK1_RndCamLoc.X); */
   
-  glLoadMatrixf(wvp.A[0]);
+  /* glLoadMatrixf(wvp.A[0]); */
  
   glBindVertexArray(Pr->VA);
   if (Pr->IBuf == 0)
@@ -281,8 +284,8 @@ BOOL IK1_RndPrimCreateSphere( ik1PRIM *Pr, DBL R, INT W, INT H )
     for (j = 0, phi = 0; j < W; j++, phi += 2 * PI / (W - 1))
     {
       V[k].N = VecSet(sin(theta) * sin(phi),
-                        cos(theta),
-                        sin(theta) * cos(phi));
+                      cos(theta),
+                      sin(theta) * cos(phi));
       nl = VecDotVec(L, V[k].N);
       if (nl < 0.1)
         nl = 0.1;

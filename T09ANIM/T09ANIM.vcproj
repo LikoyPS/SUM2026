@@ -286,6 +286,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\units\u_cntrl.c"
+					>
+				</File>
+				<File
 					RelativePath=".\src\units\units.h"
 					>
 				</File>
