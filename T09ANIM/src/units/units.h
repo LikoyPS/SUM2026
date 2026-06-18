@@ -9,6 +9,7 @@ typedef struct tagik1UINT_CONTROL
 
 ik1UNIT * IK1_UnitCreateBall( VOID );
 ik1UNIT * IK1_UnitCreateControl( VOID );
+ik1UNIT * IK1_UnitCreateTexture( VOID );
 
 extern IK1_MouseWheel;
 

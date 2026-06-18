@@ -1,7 +1,7 @@
-/* start of "u_ball.c" */
+/* start of "u_tex.c" */
 #include "units.h"
 
-typedef struct tagik1UNIT_BALL
+typedef struct tagik1UNIT_TEX
 {
   IK1_UNIT_BASE_FIELDS;
   VEC Pos;
@@ -20,7 +20,6 @@ static VOID IK1_UnitInit( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
 {
   Uni->Pos = VecSet(0, 1, 0);
   IK1_RndPrimCreateSphere(&Uni->Ball, 0.5, 30, 30);
-  Uni->Ball.MtlNo = rand() % MAT_N;
 } /* End of 'IK1_UnitInit' function */
  
 /* Unit deinitialization function.
@@ -63,16 +62,17 @@ static VOID IK1_UnitRender( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
 
   for (i = 0; i < 5; i++)
   {
+    Uni->Ball.MtlNo = rand() % MAT_N;
     IK1_RndPrimDraw(&Uni->Ball, MatrTranslate(VecSet(i, 0, i)));
   }
 } /* End of 'IK1_UnitRender' function */
  
-/* Ball unit creation function.
+/* Texture unit creation function.
  * ARGUMENTS: None.
  * RETURNS:
  *   (ik1UNIT *) pointer to created unit.
  */
-ik1UNIT * IK1_UnitCreateBall( VOID )
+ik1UNIT * IK1_UnitCreateTexture( VOID )
 {
   ik1UNIT *Uni;
  
@@ -86,5 +86,5 @@ ik1UNIT * IK1_UnitCreateBall( VOID )
   Uni->Render = (VOID *)IK1_UnitRender;
  
   return Uni;
-} /* End of 'IK1_UniteCreateBall' function */
-/* end of "u_ball.c" */
+} /* End of 'IK1_UniteCreateTex' function */
+/* end of "u_tex.c" */

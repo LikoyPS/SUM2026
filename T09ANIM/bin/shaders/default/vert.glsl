@@ -10,6 +10,8 @@ uniform mat4 MatrWVP;
 
 out vec4 DrawColor;
 out vec3 DrawNormal;
+out vec3 DrawPos;
+
 
 void main( void )
 {

@@ -98,9 +98,9 @@ VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
     Pr->Type == IK1_RND_PRIM_TRIMESH ? GL_TRIANGLES :
     GL_POINTS;
  
+  
   /* glUseProgram(ProgId); */
-  ProgId = IK1_RndMtlApply(Pr->MtlNo);
-  if (ProgId == 0)
+  if ((ProgId = IK1_RndMtlApply(Pr->MtlNo)) == 0)
     return;
 
   if ((loc = glGetUniformLocation(ProgId, "MatrWVP")) != -1)
@@ -109,10 +109,8 @@ VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
     glUniform1f(loc, IK1_Anim.Time);
   if ((loc = glGetUniformLocation(ProgId, "MatrWInv")) != -1)
     glUniformMatrix4fv(loc, 1, FALSE, winv.A[0]);
-  /*if ((loc = glGetUniformLocation(ProgId, "CamLoc")) != -1)
-    glUniform3fv(loc, 1, &IK1_RndCamLoc.X); */
-  
-  /* glLoadMatrixf(wvp.A[0]); */
+ /* if ((loc = glGetUniformLocation(ProgId, "CamLoc")) != -1)
+    glUniform3fv(loc, 1, &IK1_RndCamLoc.X);*/ 
  
   glBindVertexArray(Pr->VA);
   if (Pr->IBuf == 0)

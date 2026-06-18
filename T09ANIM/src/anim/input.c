@@ -57,8 +57,8 @@ VOID IK1_MouseResponse( VOID )
   GetCursorPos(&pt);
   ScreenToClient(IK1_Anim.hWnd, &pt);
 
-  IK1_Anim.Mdx = pt.x - IK1_Anim.Mx;
-  IK1_Anim.Mdy = pt.y - IK1_Anim.My;
+  IK1_Anim.Mdx = (-pt.x + IK1_Anim.Mx) / 3;
+  IK1_Anim.Mdy = (-pt.y + IK1_Anim.My) / 3;
 
   IK1_Anim.Mx = pt.x;
   IK1_Anim.My = pt.y;

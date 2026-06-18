@@ -3,7 +3,6 @@
 ik1MATERIAL IK1_RndMaterials[IK1_MAX_MATERIALS];
 INT IK1_RndMaterialsSize;
 
-
 ik1MATERIAL IK1_RndMtlGetDef( VOID )
 {
   ik1MATERIAL def_mtl =
