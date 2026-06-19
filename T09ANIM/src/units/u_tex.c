@@ -4,9 +4,9 @@
 typedef struct tagik1UNIT_TEX
 {
   IK1_UNIT_BASE_FIELDS;
-  VEC Pos;
-  ik1PRIM Ball;
-} ik1UNIT_BALL;
+  ik1PRIM Pr;/* primitive sample */
+  INT MtlNo, TexId;
+} ik1UNIT_TEX;
 
 /* Unit initialization function.
  * ARGUMENTS:
@@ -16,10 +16,33 @@ typedef struct tagik1UNIT_TEX
  *       ik1ANIM *Ani;
  * RETURNS: None.
  */
-static VOID IK1_UnitInit( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
+static VOID IK1_UnitInit( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
 {
-  Uni->Pos = VecSet(0, 1, 0);
-  IK1_RndPrimCreateSphere(&Uni->Ball, 0.5, 30, 30);
+  vg4VERTEX V[] =
+  {
+    {{0, 0, 0}, {0, 0}, {0, 0, 1}, {1, 1, 1, 1}},
+    {{1, 0, 0}, {1, 0}, {0, 0, 1}, {1, 1, 1, 1}},
+    {{0, 1, 0}, {0, 1}, {0, 0, 1}, {1, 1, 1, 1}},
+    {{1, 1, 0}, {1, 1}, {0, 0, 1}, {1, 1, 1, 1}},
+  };
+ 
+  FLT t[2][2] =
+  {
+    {0.8, 1},
+    {1, 0.3}
+  };
+
+  ik1MATERIAL mtl = IK1_RndMtlGetDef();
+
+  strncpy(mtl.Name, "texture sample", IK1_STR_MAX - 1);
+  mtl.ShdNo = IK1_RndShdAdd("tex");
+  Uni->MtlNo = IK1_RndMtlAdd(&mtl);
+ 
+  glGenTextures(1, &Uni->TexId);
+  glBindTexture(GL_TEXTURE_2D, Uni->TexId);
+  glTexImage2D(GL_TEXTURE_2D, 0, 1, 2, 2, 0, GL_LUMINANCE, GL_FLOAT, t);
+  
+  IK1_RndPrimCreate(&Uni->Pr, IK1_RND_PRIM_TRIMESH, V, 4, NULL, 0);
 } /* End of 'IK1_UnitInit' function */
  
 /* Unit deinitialization function.
@@ -30,9 +53,10 @@ static VOID IK1_UnitInit( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
  *       ik1ANIM *Ani;
  * RETURNS: None.
  */
-static VOID IK1_UnitClose( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
+static VOID IK1_UnitClose( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
 {
-  IK1_RndPrimFree(&Uni->Ball);
+  glDeleteTextures(1, Uni->TexId);
+  IK1_RndPrimFree(&Uni->Pr);
 } /* End of 'IK1_UnitClose' function */
  
 /* Unit inter frame events handle function.
@@ -43,7 +67,7 @@ static VOID IK1_UnitClose( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
  *       ik1ANIM *Ani;
  * RETURNS: None.
  */
-static VOID IK1_UnitResponse( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
+static VOID IK1_UnitResponse( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
 {
 
 } /* End of 'IK1_UnitResponse' function */
@@ -56,15 +80,11 @@ static VOID IK1_UnitResponse( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
  *       ik1ANIM *Ani;
  * RETURNS: None.
  */
-static VOID IK1_UnitRender( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
+static VOID IK1_UnitRender( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
 {
-  INT i;
-
-  for (i = 0; i < 5; i++)
-  {
-    Uni->Ball.MtlNo = rand() % MAT_N;
-    IK1_RndPrimDraw(&Uni->Ball, MatrTranslate(VecSet(i, 0, i)));
-  }
+  glActiveTexture(GL_TEXTURE0 + 1);
+  glBindTexture(GL_TEXTURE_2D, Uni->TexId);
+  IK1_RndPrimDraw(&Uni->Pr, MatrIdentity);
 } /* End of 'IK1_UnitRender' function */
  
 /* Texture unit creation function.
@@ -76,7 +96,7 @@ ik1UNIT * IK1_UnitCreateTexture( VOID )
 {
   ik1UNIT *Uni;
  
-  if ((Uni = IK1_AnimUnitCreate(sizeof(ik1UNIT_BALL))) == NULL)
+  if ((Uni = IK1_AnimUnitCreate(sizeof(ik1UNIT_TEX))) == NULL)
     return NULL;
  
   /* Setup unit methods */
