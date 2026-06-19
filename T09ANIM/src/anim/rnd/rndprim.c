@@ -96,6 +96,7 @@ VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
   INT prim_type =
     Pr->Type == IK1_RND_PRIM_LINES ? GL_LINES :
     Pr->Type == IK1_RND_PRIM_TRIMESH ? GL_TRIANGLES :
+    Pr->Type == IK1_RND_PRIM_TRISTRIP ? GL_TRIANGLE_STRIP:
     GL_POINTS;
  
   

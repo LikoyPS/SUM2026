@@ -61,7 +61,7 @@ static VOID IK1_UnitRender( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
 {
   INT i;
 
-  for (i = 0; i < 5; i++)
+  for (i = 1; i < 5; i++)
   {
     IK1_RndPrimDraw(&Uni->Ball, MatrTranslate(VecSet(i, 0, i)));
   }

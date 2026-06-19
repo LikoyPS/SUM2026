@@ -63,6 +63,7 @@ typedef enum tagik1PRIM_TYPE
   IK1_RND_PRIM_POINTS,   /* Array of points  – GL_POINTS */
   IK1_RND_PRIM_LINES,    /* Line segments (by 2 points) – GL_LINES */
   IK1_RND_PRIM_TRIMESH,  /* Triangle mesh - array of triangles – GL_TRIANGLES */
+  IK1_RND_PRIM_TRISTRIP,
 } ik1PRIM_TYPE;
  
  

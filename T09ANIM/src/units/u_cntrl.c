@@ -11,7 +11,7 @@
  */
   static VOID IK1_UnitInit( ik1UNIT_CONTROL *Uni, ik1ANIM *Ani )
 {
-  Uni->CamLoc = VecSet(8, 8, 8);
+  Uni->CamLoc = VecSet(0.5, 1, 0.5);
   Uni->CamAt = VecSet(0, 0, 0);
   Uni->Speed = 1;
 } /* End of 'IK1_UnitInit' function */

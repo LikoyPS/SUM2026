@@ -15,8 +15,8 @@ uniform float Time, GlobalTime;
 void main( void )
 {
   OutColor = DrawColor;
-  vec3 L = normalize(vec3(10 * sin(8 *Time), 1, 1));
-  vec3 L1 = normalize(vec3(1, 1, 10 * sin(5 * Time)));
+  vec3 L = normalize(vec3(sin(Time), 1, 1));
+  vec3 L1 = normalize(vec3(1, 1, 10 * sin(Time)));
 
   vec3 N = normalize(DrawNormal);
                                                  

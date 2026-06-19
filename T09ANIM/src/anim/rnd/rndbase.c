@@ -94,7 +94,6 @@ VOID IK1_RndInit( HWND hWnd )
   IK1_RndProjFarClip = 3000;
   IK1_RndFrameW = 47;
   IK1_RndFrameH = 47;
-  IK1_RndCamSet(VecSet(5, 5, 5), VecSet(0, 0, 0), VecSet(0, 1, 0));
 
 
   IK1_RndResize(47, 47);
