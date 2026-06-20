@@ -43,5 +43,7 @@ void main( void )
 
   vec3 N = normalize(DrawNormal);
                                                  
-  OutColor = vec4(vec3(1, 1, 1) * 0.50 * dot(N, L) + vec3(1, 1, 1) * dot(N, L1), 1);
+  //OutColor = vec4(vec3(1, 1, 1) * 0.50 * dot(N, L) + vec3(1, 1, 1) * dot(N, L1), 1);
+  vec3 V;
+  OutColor = vec4(Shade(DrawPos, N, V = normalize(DrawPos - CamLoc), reflect(V, N), L, vec3(1, 1, 1), 1), 1);
 }
