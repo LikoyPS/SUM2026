@@ -7,6 +7,7 @@ typedef struct tagik1UNIT_TEX
   IK1_UNIT_BASE_FIELDS;
   ik1PRIM Pr;/* primitive sample */
   UINT MtlNo, TexId[2];
+  ik1PRIM Ball;
 } ik1UNIT_TEX;
 
 /* Unit initialization function.
@@ -55,6 +56,7 @@ static VOID IK1_UnitInit( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
 
   if ((F = fopen("Z:\\SUM2026\\T09ANIM\\A.g24", "rb")) != NULL)
   {
+    INT mips;
     INT w = 0, h = 0;
     VOID *mem;
 
@@ -66,8 +68,15 @@ static VOID IK1_UnitInit( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
       fread(mem, 3, w * h, F);
 
       glBindTexture(GL_TEXTURE_2D, Uni->TexId[1]);
-      glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, mem);
 
+      mips = log(w > h ? w : h) / log(2);
+      mips = mips < 1 ? 1 : mips;
+ 
+      glTexStorage2D(GL_TEXTURE_2D, mips, GL_RGB8, w, h);
+      glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w, h,
+                      GL_BGR, GL_UNSIGNED_BYTE, mem);
+      glGenerateMipmap(GL_TEXTURE_2D);
+      
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
  
@@ -79,6 +88,15 @@ static VOID IK1_UnitInit( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
 
     fclose(F);  
   }
+
+  mtl = IK1_RndMtlGetDef();
+  
+  strncpy(mtl.Name, "sphere material", IK1_STR_MAX - 1);
+  mtl.Tex[0] = IK1_RndTexAddFromFile("bin/textures/A.bmp");
+  
+  IK1_RndPrimCreateSphere(&Uni->Ball, 0.5, 30, 30);
+  Uni->Ball.MtlNo = IK1_RndMtlAdd(&mtl);
+
 } /* End of 'IK1_UnitInit' function */
  
 /* Unit deinitialization function.
@@ -91,6 +109,7 @@ static VOID IK1_UnitInit( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
  */
 static VOID IK1_UnitClose( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
 {
+  IK1_RndPrimFree(&Uni->Ball);
   glDeleteTextures(2, Uni->TexId);
   IK1_RndPrimFree(&Uni->Pr);
 } /* End of 'IK1_UnitClose' function */
@@ -150,6 +169,8 @@ static VOID IK1_UnitRender( ik1UNIT_TEX *Uni, ik1ANIM *Ani )
   glBindTexture(GL_TEXTURE_2D, Uni->TexId[1]);
 
   IK1_RndPrimDraw(&Uni->Pr, MatrIdentity());
+
+  IK1_RndPrimDraw(&Uni->Ball, MatrTranslate(VecSet(2, 0, 5)));
 } /* End of 'IK1_UnitRender' function */
  
 /* Texture unit creation function.

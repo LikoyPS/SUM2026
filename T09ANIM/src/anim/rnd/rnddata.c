@@ -22,3 +22,5 @@ MATR
   IK1_RndMatrView, /* View coordinate system matrix */
   IK1_RndMatrProj, /* Projection coordinate system matrix */
   IK1_RndMatrVP;   /* Stored (View * Proj) matrix */
+
+VEC IK1_RndCamAt, IK1_RndCamLoc, IK1_RndCamRight, IK1_RndCamUp, IK1_RndCamDir;

@@ -1,4 +1,5 @@
 #include "rndres.h"
+#include <stdio.h>
 
 ik1TEXTURE IK1_RndTextures[IK1_MAX_TEXTURES];
 INT IK1_RndTexturesSize;
@@ -10,19 +11,18 @@ VOID IK1_RndTexInit( VOID )
 
 VOID IK1_RndTexClose( VOID )
 {
+  INT i;
+
+  for (i = 0; i < IK1_RndTexturesSize; i++)
+    glDeleteTextures(1, &IK1_RndTextures[i].TexId);
   IK1_RndTexturesSize = 0;
 }
 
-/* save to textures array */
-INT IK1_RndTexAdd( CHAR *FileName )
-{
-  return 0;
-}
 
 /* textures from pic. */
-INT IK1_RndTexAddImg( CHAR *FileName, INT W, INT H, DWORD *Bits )
+INT IK1_RndTexAddImg( CHAR *FileName, INT W, INT H, INT C, DWORD *Bits )
 {
-  INT mips, C;
+  INT mips;
  
   if (IK1_RndTexturesSize >= IK1_MAX_TEXTURES)
     return -1;
@@ -53,3 +53,50 @@ INT IK1_RndTexAddImg( CHAR *FileName, INT W, INT H, DWORD *Bits )
  
   return IK1_RndTexturesSize++;
 }
+
+INT IK1_RndTexAddFromFile( CHAR *FileName )
+{
+  INT ret = -1;
+  HBITMAP hBm;
+  FILE *F;
+ 
+  if ((hBm = LoadImage(NULL, FileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION)) != NULL)
+  {
+    BITMAP Bm;
+ 
+    GetObject(hBm, sizeof(BITMAP), &Bm);
+    if (Bm.bmBitsPixel == 24 || Bm.bmBitsPixel == 32 || Bm.bmBitsPixel == 8)
+      ret = IK1_RndTexAddImg(FileName, Bm.bmWidth, Bm.bmHeight, Bm.bmBitsPixel >> 3, Bm.bmBits); 
+    DeleteObject(hBm);
+    return ret;
+  }
+  if ((F = fopen(FileName, "rb")) != NULL)
+  {
+    INT w = 0, h = 0, flen, components = -1;
+    VOID *mem;
+ 
+    fread(&w, 2, 1, F);
+    fread(&h, 2, 1, F);
+ 
+    fseek(F, 0, SEEK_END);
+    flen = ftell(F);
+    fseek(F, 4, SEEK_END);
+ 
+    if (w * h * 4 + 4 == flen)
+      components = 4;
+    else if (w * h * 3 + 4 == flen)
+      components = 3;
+    else if (w * h * 1 + 4 == flen)
+      components = 1;
+ 
+    if (components != -1)
+      if ((mem = malloc(w * h * components)) != NULL)
+      {
+        fread(mem, components, w * h, F);
+        ret = IK1_RndTexAddImg(FileName, w, h, components, mem); 
+        free(mem);
+      }
+    fclose(F);
+  }
+  return ret;
+} /* End of 'IK1_RndTexAddFromFile' function */

@@ -11,6 +11,8 @@ ik1UNIT * IK1_UnitCreateBall( VOID );
 ik1UNIT * IK1_UnitCreateControl( VOID );
 ik1UNIT * IK1_UnitCreateTexture( VOID );
 
+INT IK1_RndTexAddFromFile( CHAR *FileName );
+
 extern IK1_MouseWheel;
 
 /* prototipes func  */

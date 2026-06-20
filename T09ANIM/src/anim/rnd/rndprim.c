@@ -111,7 +111,7 @@ VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World )
   if ((loc = glGetUniformLocation(ProgId, "MatrWInv")) != -1)
     glUniformMatrix4fv(loc, 1, FALSE, winv.A[0]);
  /* if ((loc = glGetUniformLocation(ProgId, "CamLoc")) != -1)
-    glUniform3fv(loc, 1, &IK1_RndCamLoc.X);*/ 
+    glUniform3fv(loc, 1, &IK1_RndCamLoc.X); */
  
   glBindVertexArray(Pr->VA);
   if (Pr->IBuf == 0)
@@ -206,7 +206,8 @@ BOOL IK1_RndPrimLoad( ik1PRIM *Pr, CHAR *FileName )
       DBL x, y, z;
  
       sscanf(Buf + 2, "%lf%lf%lf", &x, &y, &z);
-      V[nv++].P = VecSet(x / 50, y / 50, z / 50);
+     // V[nv].T = VecSet(z, y);
+      V[nv++].P = VecSet(x / 50, y / 50, z / 50); /* why /50 ? */
     }
     else if (Buf[0] == 'f' && Buf[1] == ' ')
     {

@@ -164,4 +164,15 @@ VOID IK1_RndCamSet( VEC Loc, VEC At, VEC Up )
 {
   IK1_RndMatrView = MatrView(Loc, At, Up);
   IK1_RndMatrVP = MatrMulMatr(IK1_RndMatrView, IK1_RndMatrProj);
+  IK1_RndCamRight = VecSet(IK1_RndMatrView.A[0][0],
+                          IK1_RndMatrView.A[1][0],
+                          IK1_RndMatrView.A[2][0]);
+  IK1_RndCamUp = VecSet(IK1_RndMatrView.A[0][1],
+                        IK1_RndMatrView.A[1][1],
+                        IK1_RndMatrView.A[2][1]);
+  IK1_RndCamDir = VecSet(-IK1_RndMatrView.A[0][2],
+                         -IK1_RndMatrView.A[1][2],
+                         -IK1_RndMatrView.A[2][2]);
+  IK1_RndCamLoc = Loc;
+  IK1_RndCamAt = At;
 }

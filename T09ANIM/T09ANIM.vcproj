@@ -206,6 +206,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\anim\rnd\rnd.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\anim\timer.c"
 					>
 				</File>
@@ -216,10 +220,6 @@
 				<Filter
 					Name="Render Sysstem"
 					>
-					<File
-						RelativePath=".\src\anim\rnd\rnd.h"
-						>
-					</File>
 					<File
 						RelativePath=".\src\anim\rnd\rndbase.c"
 						>

@@ -18,9 +18,8 @@ typedef struct tagik1UNIT_BALL
  */
 static VOID IK1_UnitInit( ik1UNIT_BALL *Uni, ik1ANIM *Ani )
 {
-  Uni->Pos = VecSet(0, 1, 0);
   IK1_RndPrimCreateSphere(&Uni->Ball, 0.5, 30, 30);
-  Uni->Ball.MtlNo = rand() % MAT_N;
+  Uni->Ball.MtlNo = rand() % 20;
 } /* End of 'IK1_UnitInit' function */
  
 /* Unit deinitialization function.
