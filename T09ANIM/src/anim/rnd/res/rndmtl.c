@@ -137,3 +137,10 @@ UINT IK1_RndMtlApply( INT MtlNo )
   }
   return prg;
 }
+
+ik1MATERIAL IK1_RndMtlGet( INT MtlNo )
+{
+  if (MtlNo < 0 || MtlNo >= IK1_RndMaterialsSize)
+    MtlNo = 0;
+  return IK1_RndMaterials[MtlNo];
+}

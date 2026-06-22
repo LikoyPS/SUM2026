@@ -32,7 +32,6 @@ typedef struct tagik1TEXTURE
   UINT TexId;             /* OpenGL texture Id */ 
 } ik1TEXTURE;
 
-
 /***
 * shaders handle
 ***/
@@ -58,7 +57,7 @@ extern INT IK1_RndTexturesSize;
 VOID IK1_RndTexInit( VOID );
 VOID IK1_RndTexClose( VOID );
 INT IK1_RndTexAdd( CHAR *FileName );
-INT IK1_RndTexAddImg( CHAR *FileName, INT W, INT H, INT C, DWORD *Bits );
+INT IK1_RndTexAddImg( CHAR *FileName, INT W, INT H, INT C, VOID *Bits );
 
 
 
@@ -75,6 +74,7 @@ VOID IK1_RndMtlClose( VOID );
 ik1MATERIAL IK1_RndMtlGetDef( VOID );
 INT IK1_RndMtlAdd( ik1MATERIAL *Mtl );
 UINT IK1_RndMtlApply( INT MtlNo );
+ik1MATERIAL IK1_RndMtlGet( INT MtlNo );
 
 
 VOID IK1_RndResInit( VOID );

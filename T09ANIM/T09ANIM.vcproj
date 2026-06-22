@@ -206,10 +206,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\anim\rnd\rnd.h"
-					>
-				</File>
-				<File
 					RelativePath=".\src\anim\timer.c"
 					>
 				</File>
@@ -248,7 +244,15 @@
 						Name="Resources"
 						>
 						<File
+							RelativePath=".\src\anim\rnd\rnd.h"
+							>
+						</File>
+						<File
 							RelativePath=".\src\anim\rnd\res\rndmtl.c"
+							>
+						</File>
+						<File
+							RelativePath=".\rndprims.c"
 							>
 						</File>
 						<File
@@ -287,6 +291,10 @@
 				</File>
 				<File
 					RelativePath=".\src\units\u_cntrl.c"
+					>
+				</File>
+				<File
+					RelativePath=".\src\units\u_g3dm.c"
 					>
 				</File>
 				<File

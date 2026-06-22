@@ -11,6 +11,8 @@
 #include <glew.h>
 
 #include "res/rndres.h"
+#include <mmsystem.h>
+#pragma comment(lib, "winmm")
 
 
 /***
@@ -85,11 +87,28 @@ typedef struct tagik1PRIM
   INT MtlNo;         /* material number at ctock array */
 } ik1PRIM;
 
+/* Primitive collection data type */
+typedef struct tagik1PRIMS
+{
+  INT NumOfPrims; /* Number of primitives in array */  
+  ik1PRIM *Prims; /* Array of primitives */
+  MATR Trans;     /* Common transformation matrix */
+} ik1PRIMS;
+
 VOID IK1_RndPrimCreate( ik1PRIM *Pr, ik1PRIM_TYPE Type, ik1VERTEX *V, INT NoofV, INT *Ind, INT NoofI );
 VOID IK1_RndPrimFree( ik1PRIM *Pr );
 VOID IK1_RndPrimDraw( ik1PRIM *Pr, MATR World );
 BOOL IK1_RndPrimLoad( ik1PRIM *Pr, CHAR *FileName );
 BOOL IK1_RndPrimCreateSphere( ik1PRIM *Pr, DBL R, INT W, INT H );
 VOID IK1_RndPrimTriMeshAutoNormals( ik1VERTEX *V, INT NumOfV, INT *Ind, INT NumOfI );
+
+BOOL IK1_RndPrimsCreate( ik1PRIMS *Prs, INT NumOfPrims );
+VOID IK1_RndPrimsFree( ik1PRIMS *Prs );
+VOID IK1_RndPrimsDraw( ik1PRIMS *Prs, MATR World );
+BOOL IK1_RndPrimsLoad( ik1PRIMS *Prs, CHAR *FileName );
+
+extern INT IK1_RndShdAddonI[8];
+extern FLT IK1_RndShdAddonF[8];
+extern VEC IK1_RndShdAddonV[8];
 
 #endif /* __rnd_h_ */

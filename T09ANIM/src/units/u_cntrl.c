@@ -99,12 +99,16 @@ static VOID IK1_UnitClose( ik1UNIT_CONTROL *Uni, ik1ANIM *Ani )
   if (Ani->Keys[VK_SHIFT] && Ani->KeysClick['W'])
   {
     glGetIntegerv(GL_POLYGON_MODE, modes);
-
     if (modes[0] == GL_FILL)
+    {  
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+      sndPlaySound("bin/sounds/balls.wav", SND_ASYNC);
+    }
     else
+    {    
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    
+      sndPlaySound("bin/sounds/balls.wav", SND_ASYNC);
+    }
   }
 
   if (Ani->KeysClick[VK_ESCAPE])

@@ -60,6 +60,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   /*** Units creation ***/
   IK1_AnimUnitAdd(IK1_UnitCreateTexture());
   IK1_AnimUnitAdd(IK1_UnitCreateBall());
+  IK1_AnimUnitAdd(IK1_UnitCreateG3DM());
   IK1_AnimUnitAdd(IK1_UnitCreateControl());
 
   /* Message loop */

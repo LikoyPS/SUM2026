@@ -20,7 +20,7 @@ VOID IK1_RndTexClose( VOID )
 
 
 /* textures from pic. */
-INT IK1_RndTexAddImg( CHAR *FileName, INT W, INT H, INT C, DWORD *Bits )
+INT IK1_RndTexAddImg( CHAR *FileName, INT W, INT H, INT C, VOID *Bits )
 {
   INT mips;
  
